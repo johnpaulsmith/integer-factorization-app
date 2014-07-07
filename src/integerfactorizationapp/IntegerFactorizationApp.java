@@ -1,30 +1,30 @@
 /**
  * @author John Paul Smith
  *
- *A simple stand-alone program to demonstrate the basics of prime decomposition:
- *input a positive integer and receive that integer's prime constituents. This 
- *general problem is a key component of public key cryptography. 
+ * A simple stand-alone program to demonstrate the basics of prime
+ * decomposition: input a positive integer and receive that integer's prime
+ * constituents. This general problem is a key component of public key
+ * cryptography.
  *
- *I originally create this program to solve the third Project Euler challenge 
- *problem: http://projecteuler.net/problem=3.
+ * I originally create this program to solve the third Project Euler challenge
+ * problem: http://projecteuler.net/problem=3.
  *
- *The algorithm to determine the prime factors is a tuned trial division
- *implementation, with a maximum input value equal to the maximum positive
- *value of a 64-bit integer in the JVM. 
- * 
- *In expectation, this program probably won't take much longer than 90 seconds 
- *to factor the input number, because most numbers are comprised of several to
- *many smaller prime factors. However, a number that is the square of a 
- *ten-digit prime or the product of two ten-digit primes is the worst-case for 
- *this program and the general problem of integer factorization as a whole. To
- *see this, choose 9223371873002223329 as the input. As the only factors are 
- *3037000493 and 3037000453, the algorithm will take a very long time to find 
- *them, likely between six and eight hours on a relatively fast personal 
- *computer. 
+ * The algorithm to determine the prime factors is a tuned trial division
+ * implementation, with a maximum input value equal to the maximum positive
+ * value of a 64-bit integer in the JVM.
  *
- *Recommended test inputs: 7653567865434567, 35184372088832, and 600851475143.
+ * In expectation, this program probably won't take much longer than 90 seconds
+ * to factor the input number, because most numbers are comprised of several to
+ * many smaller prime factors. However, a number that is the square of a
+ * ten-digit prime or the product of two ten-digit primes is the worst-case for
+ * this program and the general problem of integer factorization as a whole. To
+ * see this, choose 9223371873002223329 as the input. As the only factors are
+ * 3037000493 and 3037000453, the algorithm will take a very long time to find
+ * them, likely between six and eight hours on a relatively fast personal
+ * computer.
+ *
+ * Recommended test inputs: 7653567865434567, 35184372088832, and 600851475143.
  */
-
 package integerfactorizationapp;
 
 import java.awt.Color;
@@ -60,8 +60,9 @@ public class IntegerFactorizationApp {
 
     /**
      * @param N The positive integer value to find the prime factors for.
-     * 
-     * @return A String representation of the factors of N, or a message stating that N is a prime number.  
+     *
+     * @return A String representation of the factors of N, or a message stating
+     * that N is a prime number.
      */
     static String factorInt(final long N) {
 
@@ -70,12 +71,14 @@ public class IntegerFactorizationApp {
         ArrayList<Long> factors = getFactors(N);
 
         if (factors.size() < 2) {
-            return NumberFormat.getInstance().format(N) + " is a prime number -- try again";
+            return NumberFormat.getInstance().format(N)
+                    + " is a prime number -- try again";
         }
 
         duration = System.currentTimeMillis() - startTime;
 
-        String output = "The prime factors of " + NumberFormat.getInstance().format(N) + " are: \n\n";
+        String output = "The prime factors of "
+                + NumberFormat.getInstance().format(N) + " are: \n\n";
 
         for (int i = 0; i < factors.size(); ++i) {
 
@@ -84,19 +87,20 @@ public class IntegerFactorizationApp {
             output += NumberFormat.getInstance().format(x);
 
             /*
-             * Find the number of occurrences of each factor, then convert this value to a string and 
-             * replace its regular ASCII digit characters with their corresponding UNICODE superscript 
-             * characters using the UNICODE values for each.
+             * Find the number of occurrences of each factor, then convert this
+             * value to a string and replace its regular ASCII digit characters 
+             * with their corresponding UNICODE superscript characters using the
+             * UNICODE values for each.
              *
              * The 1, 2, 3 superscript characters are ISO 8859-1 ("Latin 1).
              */
-            
+
             int frequency = Collections.frequency(factors, x);
-            
+
             if (frequency > 1) {
 
                 String s = Integer.toString(frequency);
-                
+
                 s = s.replaceAll("0", Character.toString('\u2070'));
                 s = s.replaceAll("1", Character.toString('\u00B9'));
                 s = s.replaceAll("2", Character.toString('\u00B2'));
@@ -118,18 +122,20 @@ public class IntegerFactorizationApp {
             }
         }
 
-        output += "\n\nCalculated in approx. " + NumberFormat.getInstance().format(duration) + " ms";
+        output += "\n\nCalculated in approx. "
+                + NumberFormat.getInstance().format(duration) + " ms";
 
-        return output;        
+        return output;
     }
 
     /**
-     * @param n The integer value to be tested for primality. Any value less than 2 always returns false.
-     * 
-     * @return a boolean indicating whether or not n is a prime number.  
+     * @param n The integer value to be tested for primality. Any value less
+     * than 2 always returns false.
+     *
+     * @return a boolean indicating whether or not n is a prime number.
      */
     static boolean isPrime(long n) {
-        
+
         if ((n != 2 && n % 2 == 0) || n < 2) {
             return false;
         }
@@ -145,107 +151,112 @@ public class IntegerFactorizationApp {
 
         return true;
     }
-    
+
     /**
-     * 
-     * @param N The positive integer to be factored into its prime constituents. A negative value will result in a size 0
-     * list being returned. A size 0 list should not in and of itself be used to verify primality; a negative value is not 
-     * prime.
-     * 
-     * @return An ArrayList<Long> object containing the prime factors of N, if any.
+     *
+     * @param N The positive integer to be factored into its prime constituents.
+     * A negative value will result in a size 0 list being returned. A size 0
+     * list should not in and of itself be used to verify primality; a negative
+     * value is not prime.
+     *
+     * @return An ArrayList<Long> object containing the prime factors of N, if
+     * any.
      */
     static ArrayList<Long> getFactors(final long N) {
-        
+
         ArrayList<Long> factors = new ArrayList<>();
-        
+
         if (N < 2) {
             return factors;
         }
-        
+
         int x = 1000, i, c = 1;
         long b = 1L, n = N;
         long[] primes;
         double s = Math.sqrt(N);
-        
+
         while (b <= s) {
-            
+
             primes = getNextXPrimes(b, x);
-            
+
             i = 0;
-            
+
             while (n > 1 && i < primes.length) {
-                
+
                 if (n % primes[i] == 0) {
-                    
+
                     factors.add(primes[i]);
-                    
+
                     n /= primes[i];
-                    
+
                 } else {
                     ++i;
                 }
             }
-            
+
             b = primes[primes.length - 1];
-            
-            if (c++ % 100 == 0) {                
-                
+
+            if (c++ % 100 == 0) {
+
                 if (sumFactors(factors) == N) {
                     return factors;
                 }
             }
         }
-        
+
         /* 
-         * An integer n can have at most one prime factor that is greater than the floor of its square root. 
-         * To find it, divide n by t where t is the product of all prime factors less that the square root
-         * of n. If t != n, then n / t is the remaining factor of n.
-         */         
-        
+         * An integer n can have at most one prime factor that is greater than
+         * the floor of its square root. To find it, divide n by t where t is 
+         * the product of all prime factors less that the square root of n. 
+         * If t != n, then n / t is the remaining factor of n.
+         */
+
         long t = sumFactors(factors);
-        
+
         if (t != N && (N % t) == 0) {
             factors.add(N / t);
-        }      
-        
+        }
+
         return factors;
     }
-    
+
     static long sumFactors(ArrayList<Long> a) {
-        
+
         long sum = 1L;
-        
+
         for (long f : a) {
             sum *= f;
         }
-        
+
         return sum;
     }
-    
+
     /**
-     * Finds the next x primes greater than b. 
-     * 
-     * @param b Incrementally test all values greater than b for primality until x primes have been found.
-     * @param x The number of primes greater than b to find. 
+     * Finds the next x primes greater than b.
+     *
+     * @param b Incrementally test all values greater than b for primality until
+     * x primes have been found.
+     *
+     * @param x The number of primes greater than b to find.
      * @return A long[] containing the next x primes greater than b.
      */
-    static long[] getNextXPrimes(long b, int x) {       
-        
+    static long[] getNextXPrimes(long b, int x) {
+
         long[] factors = new long[x];
-        
+
         int i = 0;
-        
-        while (i < x) {            
+
+        while (i < x) {
             if (isPrime(++b)) {
                 factors[i++] = b;
             }
         }
-        
+
         return factors;
     }
 
     public static void main(String[] args) {
-        new IntegerFactorizationApp().mainAppFrame.setVisible(true);               
+        new IntegerFactorizationApp().mainAppFrame.setVisible(true);
     }
 }
 
@@ -293,8 +304,9 @@ class MainAppPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         /**
-         * The following code allows only one instance of AnswerWriter to run at the same time. 
-         * If no other instances are currently executing, a new instance will be started.
+         * The following code allows only one instance of FunFactorer to run at
+         * the same time. If no other instances are currently executing, a new
+         * instance will be started.
          */
         Thread c = Thread.currentThread();
 
@@ -304,7 +316,7 @@ class MainAppPanel extends JPanel implements ActionListener {
 
         for (Thread x : t) {
 
-            if (x instanceof Factorer) {
+            if (x.getName().equals(RunFactorer.FACTORER_THREAD_NAME)) {
 
                 answerField.setText("Waiting on current execution -- please wait");
 
@@ -312,48 +324,50 @@ class MainAppPanel extends JPanel implements ActionListener {
             }
         }
 
-        new Factorer().start();
+        String input = inputField.getText();
+
+        inputField.setText("");
+        answerField.setText("");
+
+        if (input.matches("[0-9]+?")) {
+            try {
+                long n = Long.parseLong(input);
+
+                if (n >= IntegerFactorizationApp.N_LIMIT || n < 2) {
+
+                    answerField.setText("Please enter a number between 2 and "
+                            + format.format(IntegerFactorizationApp.N_LIMIT));
+
+                } else {
+                    new Thread(new RunFactorer(n), RunFactorer.FACTORER_THREAD_NAME).start();
+                }
+            } catch (NumberFormatException ex) {
+                /*input numbers that are larger than Long.MAX_VALUE will cause 
+                 *this to be thrown*/
+                answerField.setText("Please enter a number between 2 and "
+                        + format.format(IntegerFactorizationApp.N_LIMIT));
+            }
+        } else {
+            answerField.setText("Invalid entry -- try again");
+        }
     }
 
     /**
-     * The actual factoring is done in a separate thread. Sufficiently large values of n will require 
-     * significant time to factor, and since the .actionPerformed method will not return until all the methods 
-     * above  it on the stack in the same thread finish, calling the .factorInt method from the .actionPerformed 
-     * method will cause the program to lock until .factorInt returns, which includes not being able to close 
-     * the JFrame by clicking on the 'x'. This can be a nuisance and will require the manual cancellation of 
-     * the program from the IDE or command line. Performing the factoring in a separate thread allows the program 
-     * to be closed from the JFrame even in the middle of factoring. The private inner class Factorer handles this.
-     * This class also handles the application's input validation.
+     * Execute the factoring in a separate thread to allow the application to
+     * be closed without waiting for the factoring to be complete. 
      */
-    private class Factorer extends Thread {
+    private class RunFactorer implements Runnable {
+
+        static final String FACTORER_THREAD_NAME = "Factorer";
+        long n;
+
+        public RunFactorer(long n) {
+            this.n = n;
+        }
 
         @Override
         public void run() {
-
-            String input = inputField.getText();
-
-            inputField.setText("");
-            answerField.setText("");
-
-            if (input.matches("[0-9]+?")) {
-
-                try {                    
-                    long n = Long.parseLong(input);
-
-                    if (n >= IntegerFactorizationApp.N_LIMIT || n < 2) {
-
-                        answerField.setText("Please enter a number between 2 and " + format.format(IntegerFactorizationApp.N_LIMIT));
-
-                    } else {
-                        answerField.setText(IntegerFactorizationApp.factorInt(n));
-                    }
-                } catch (NumberFormatException ex) {/*input numbers that are larger than Long.MAX_VALUE will cause this to be thrown*/
-
-                    answerField.setText("Please enter a number between 2 and " + format.format(IntegerFactorizationApp.N_LIMIT));
-                }
-            } else {
-                answerField.setText("Invalid entry -- try again");
-            }
+            answerField.setText(IntegerFactorizationApp.factorInt(n));
         }
     }
 }
