@@ -1,7 +1,7 @@
 Integer-Factorization
 =====================
 
-John Paul Smith <jpsmith4437@yahoo.com>
+John Paul Smith
 
 A simple stand-alone program to demonstrate the basics of prime decomposition:
 input a positive integer and receive that integer's prime constituents. This 
