@@ -224,6 +224,12 @@ public class IntegerFactorizationApp {
 
         long sum = 1L;
 
+        /**
+         * Java 8 has added functionality for Lamba expressions. The following
+         * code can be used to replace the for-each loop to sum the factors:
+         * 
+         * sum = a.stream().map((f) -> f).reduce(sum, (accumulator, _item) -> accumulator * _item);
+         */
         for (long f : a) {
             sum *= f;
         }
