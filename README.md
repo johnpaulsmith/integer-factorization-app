@@ -1,11 +1,11 @@
-Integer-Factorization
+Integer Factorization
 =====================
 
 John Paul Smith
 
 A simple stand-alone program to demonstrate the basics of prime decomposition:
 input a positive integer and receive that integer's prime constituents. This 
-general problem is a key component of public key cryptography. 
+general problem is a key component of public-key cryptography. 
 
 I originally create this program to solve the third Project Euler challenge 
 problem: http://projecteuler.net/problem=3.
